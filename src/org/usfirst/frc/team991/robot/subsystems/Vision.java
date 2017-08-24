@@ -35,12 +35,11 @@ public class Vision extends Subsystem {
 	public double width = 0;
 	
 	double VIEW_ANGLE = 50.5;
-	public double OFFSET;
+	public double OFFSET = 0;
 	double TARGET_WIDTH = 10;
 	
 	public void initialize() {
 		table = NetworkTable.getTable("Vision");
-		OFFSET = Preferences.getInstance().getDouble("Offset", 0);
 	}
 	
 	public void getNetworkTable() {
@@ -83,6 +82,7 @@ public class Vision extends Subsystem {
 	public double adjustedCenter() {
 		
 		double calculatedCenter = centerX;
+		calculatedCenter += OFFSET;
 		if (calculatedCenter != -1) {
 			return (calculatedCenter - (resolution[0]/2.0))/(resolution[0]/2.0) ;
 		} else {

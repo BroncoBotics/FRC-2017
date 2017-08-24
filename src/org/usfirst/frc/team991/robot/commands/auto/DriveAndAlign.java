@@ -4,6 +4,7 @@ import org.usfirst.frc.team991.robot.Robot;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,19 +21,22 @@ public class DriveAndAlign extends Command {
         // Use requires() here to declare subsystem dependencies
        	requires(Robot.vision);
        	requires(Robot.drivetrain);
-       	setTimeout(Preferences.getInstance().getDouble("Timeout", 7));
+       	setTimeout(7);
+       	
+
+
+//    	SmartDashboard.putNumber("GyroMult", 0.1);
+//    	SmartDashboard.putNumber("VisionMult", 0.4);
+//    	SmartDashboard.putNumber("VisionDistance", 20);
+//    	SmartDashboard.putNumber("Offset", 25);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.drivetrain.resetPosition();
     	Robot.drivetrain.resetGryo();
+    	align = true;
 
-       	
-       	GYRO_MULT = Preferences.getInstance().getDouble("GyroMult", 1/45);
-       	VISION_MULT = Preferences.getInstance().getDouble("VisionMult", 1/15);
-       	DISTANCE = Preferences.getInstance().getDouble("VisionDistance", 1/15);
-       	Robot.vision.OFFSET = Preferences.getInstance().getDouble("Offset", 0);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,18 +47,30 @@ public class DriveAndAlign extends Command {
     	double distance = Robot.vision.computeDistance();
     	angle_offset = Robot.vision.adjustedCenter();
     	
+
+//       	GYRO_MULT = SmartDashboard.getNumber("GyroMult", 0.1);
+//       	VISION_MULT = SmartDashboard.getNumber("VisionMult", 0.4);
+//       	DISTANCE = SmartDashboard.getNumber("VisionDistance", 20);
+//       	Robot.vision.OFFSET = SmartDashboard.getNumber("Offset", 25);
     	
+
+       	GYRO_MULT = 0.1;
+       	VISION_MULT = 0.4;
+       	DISTANCE = 20;
+       	Robot.vision.OFFSET = 15;
+       	
     	if (distance < DISTANCE && align) {
     		align = false;
     		Robot.drivetrain.resetGryo();
-           	setTimeout(4);
+//           	setTimeout(7);
     	}
-    	
+
+//		SmartDashboard.putBoolean("Align", align);
     	
     	if (align) {
-    		Robot.drivetrain.arcadeDrive(-.1, (angle_offset) * VISION_MULT);
+    		Robot.drivetrain.arcadeDrive(-0.3, (angle_offset) * VISION_MULT);
     	} else {
-    		Robot.drivetrain.arcadeDrive(-.1, (Robot.drivetrain.getGyroAngle() * GYRO_MULT));
+    		Robot.drivetrain.arcadeDrive(-0.3, (Robot.drivetrain.getGyroAngle() * GYRO_MULT));
     	}
     	
     	
@@ -62,7 +78,10 @@ public class DriveAndAlign extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+    	if (Robot.drivetrain.limitHasPressed()) {
+            return isTimedOut();
+    	}
+    	return false;
     }
 
     // Called once after isFinished returns true

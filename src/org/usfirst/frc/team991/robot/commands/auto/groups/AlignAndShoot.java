@@ -1,10 +1,12 @@
-package org.usfirst.frc.team991.robot.commands.auto;
+package org.usfirst.frc.team991.robot.commands.auto.groups;
 
+import org.usfirst.frc.team991.robot.Robot;
 import org.usfirst.frc.team991.robot.commands.ShootGear;
-import org.usfirst.frc.team991.robot.commands.Turn;
-import org.usfirst.frc.team991.robot.commands.TurnToAngle;
+import org.usfirst.frc.team991.robot.commands.auto.DriveAndAlign;
+import org.usfirst.frc.team991.robot.commands.auto.TurnToTarget;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -31,7 +33,10 @@ public class AlignAndShoot extends CommandGroup {
     	
 
 //        addSequential(new TurnToAngle());
+//    	addSequential(new TurnToTarget());
         addSequential(new DriveAndAlign());
+//        if (Robot.drivetrain.limitHasPressed()){
         addSequential(new ShootGear());
+//        }
     }
 }

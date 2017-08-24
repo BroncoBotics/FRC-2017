@@ -4,10 +4,10 @@ import org.usfirst.frc.team991.robot.commands.FlipForward;
 import org.usfirst.frc.team991.robot.commands.GearControl;
 import org.usfirst.frc.team991.robot.commands.ShootGear;
 import org.usfirst.frc.team991.robot.commands.SignalControl;
-import org.usfirst.frc.team991.robot.commands.Turn;
 import org.usfirst.frc.team991.robot.commands.Turn360;
-import org.usfirst.frc.team991.robot.commands.TurnToAngle;
 import org.usfirst.frc.team991.robot.commands.auto.AlignToGear;
+import org.usfirst.frc.team991.robot.commands.auto.Turn;
+import org.usfirst.frc.team991.robot.commands.auto.TurnToAngle;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
 
 import edu.wpi.first.wpilibj.Joystick;

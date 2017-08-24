@@ -1,7 +1,7 @@
-package org.usfirst.frc.team991.robot.commands;
+package org.usfirst.frc.team991.robot.commands.auto.groups;
 
-import org.usfirst.frc.team991.robot.commands.auto.AlignAndShoot;
 import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
+import org.usfirst.frc.team991.robot.commands.auto.TurnToAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

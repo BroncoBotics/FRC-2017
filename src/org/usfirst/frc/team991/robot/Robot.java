@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team991.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -10,13 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team991.robot.commands.Mobility;
 import org.usfirst.frc.team991.robot.commands.NullOp;
-import org.usfirst.frc.team991.robot.commands.SideAlign;
-import org.usfirst.frc.team991.robot.commands.Turn;
-import org.usfirst.frc.team991.robot.commands.TurnToAngle;
-import org.usfirst.frc.team991.robot.commands.auto.AlignAndShoot;
 import org.usfirst.frc.team991.robot.commands.auto.AlignToGear;
 import org.usfirst.frc.team991.robot.commands.auto.DriveAndAlign;
-import org.usfirst.frc.team991.robot.commands.auto.DriveToGear;
+import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
+import org.usfirst.frc.team991.robot.commands.auto.Turn;
+import org.usfirst.frc.team991.robot.commands.auto.TurnToAngle;
+import org.usfirst.frc.team991.robot.commands.auto.TurnToTarget;
+import org.usfirst.frc.team991.robot.commands.auto.groups.AlignAndShoot;
+import org.usfirst.frc.team991.robot.commands.auto.groups.SideAlign;
 import org.usfirst.frc.team991.robot.subsystems.Climber;
 import org.usfirst.frc.team991.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
@@ -62,6 +64,8 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("No Auto", new NullOp());
 		chooser.addObject("Center Auto", new AlignAndShoot());
 		chooser.addObject("Mobility", new Mobility());
+		chooser.addObject("Turn Auto", new TurnToTarget());
+		chooser.addObject("Straight Auto", new DriveStraight(5));
 		SmartDashboard.putData("Auto Mode", chooser);
 		
 		
@@ -102,12 +106,13 @@ public class Robot extends IterativeRobot {
 //		autonomousCommand = new AlignAndShoot();
 //		autonomousCommand = new SideAlign();
 //		autonomousCommand = new TurnToAngle();
-		
 //		autonomousCommand = new DriveAndAlign();
 
-//		 schedule the autonomous command (example)
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		
+		Robot.drivetrain.resetLimit();
+		SmartDashboard.putData(drivetrain);
 	}
 
 	/**
@@ -116,19 +121,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-
-		SmartDashboard.putNumber("Left Encoder", Robot.drivetrain.getLeftPosition());
-		SmartDashboard.putNumber("Right Encoder", Robot.drivetrain.getRightPosition());
+		Robot.drivetrain.limitCheck();
+		
+//		SmartDashboard.putBoolean("Switch", Robot.drivetrain.limitHasPressed());
+//		SmartDashboard.putNumber("Left Encoder", Robot.drivetrain.getLeftPosition());
+//		SmartDashboard.putNumber("Right Encoder", Robot.drivetrain.getRightPosition());
 	}
 
 	@Override
 	public void teleopInit() {
-
-//    	Robot.drivetrain.disablePID();
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		Robot.pneumatics.openCollector();
+		
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 	}
@@ -138,6 +141,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		SmartDashboard.putBoolean("Switch", Robot.drivetrain.isLimitPressed());
 		Scheduler.getInstance().run();
 		
 //		SmartDashboard.putNumber("Gyro", drivetrain.getGyroAngle());

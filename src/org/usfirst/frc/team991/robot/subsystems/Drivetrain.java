@@ -11,6 +11,7 @@ import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
@@ -27,11 +28,12 @@ public class Drivetrain extends Subsystem {
 	RobotDrive drive;
 	ADIS16448_IMU gyro;
 	AnalogInput ultra;
-	Relay signal_light;
+	
+	DigitalInput limit = new DigitalInput(6);
+	boolean limit_has_pressed = false;
+	
 	boolean flipped = false;
-	
 	Relay light = new Relay(2);
-	
 
 
 	public Drivetrain() {
@@ -105,7 +107,25 @@ public class Drivetrain extends Subsystem {
 //    public void disablePID() {
 //    	disable();
 //    }
+    
+    public boolean isLimitPressed() {
+    	return !limit.get();
+    }
+    
+    public void limitCheck() {
+    	if (isLimitPressed()) {
+    		limit_has_pressed = true;
+    	}
+    }
+    
+    public void resetLimit() {
+    	limit_has_pressed = false;
+    }
 	
+    public boolean limitHasPressed() {
+    	return limit_has_pressed;
+    }
+    
 	public CANTalon getLeft() {
 		return front_left_motor;
 	}

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team991.robot.commands;
 
+import org.usfirst.frc.team991.robot.Robot;
+import org.usfirst.frc.team991.robot.commands.auto.DriveAway;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

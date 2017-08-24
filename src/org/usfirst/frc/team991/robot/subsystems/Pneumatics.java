@@ -17,6 +17,7 @@ public class Pneumatics extends Subsystem {
 	Compressor compressor = new Compressor();
 	DoubleSolenoid gate = new DoubleSolenoid(7,6);
 	DoubleSolenoid pusher = new DoubleSolenoid(0,1);
+	DoubleSolenoid collector = new DoubleSolenoid(4,5);
 	
 	public Pneumatics() {
 		closeGate();
@@ -40,6 +41,10 @@ public class Pneumatics extends Subsystem {
 	
 	public void closePusher() {
 		pusher.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void openCollector() {
+		collector.set(DoubleSolenoid.Value.kForward);
 	}
 	
     public void initDefaultCommand() {
