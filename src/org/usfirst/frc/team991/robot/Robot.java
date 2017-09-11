@@ -11,14 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team991.robot.commands.Mobility;
 import org.usfirst.frc.team991.robot.commands.NullOp;
-import org.usfirst.frc.team991.robot.commands.auto.AlignToGear;
-import org.usfirst.frc.team991.robot.commands.auto.DriveAndAlign;
+import org.usfirst.frc.team991.robot.commands.TurnAuto;
 import org.usfirst.frc.team991.robot.commands.auto.DriveStraight;
-import org.usfirst.frc.team991.robot.commands.auto.Turn;
-import org.usfirst.frc.team991.robot.commands.auto.TurnToAngle;
-import org.usfirst.frc.team991.robot.commands.auto.TurnToTarget;
-import org.usfirst.frc.team991.robot.commands.auto.groups.AlignAndShoot;
-import org.usfirst.frc.team991.robot.commands.auto.groups.SideAlign;
 import org.usfirst.frc.team991.robot.subsystems.Climber;
 import org.usfirst.frc.team991.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics;
@@ -62,10 +56,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		
 		chooser.addDefault("No Auto", new NullOp());
-		chooser.addObject("Center Auto", new AlignAndShoot());
 		chooser.addObject("Mobility", new Mobility());
-		chooser.addObject("Turn Auto", new TurnToTarget());
 		chooser.addObject("Straight Auto", new DriveStraight(5));
+		chooser.addObject("Turn", new TurnAuto());
 		SmartDashboard.putData("Auto Mode", chooser);
 		
 		
@@ -152,9 +145,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
-		
-		Robot.vision.getNetworkTable();
-		Robot.vision.postSmartDash();
 //    	Robot.drivetrain.disablePID();
 	}
 }

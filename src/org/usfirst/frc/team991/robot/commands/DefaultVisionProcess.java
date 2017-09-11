@@ -3,6 +3,7 @@ package org.usfirst.frc.team991.robot.commands;
 import org.usfirst.frc.team991.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -21,8 +22,9 @@ public class DefaultVisionProcess extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.vision.getNetworkTable();
-    	Robot.vision.postSmartDash();
+    	SmartDashboard.putNumber("AbsCenter", Robot.vision.abs_center);
+    	SmartDashboard.putNumber("CameraWidth", Robot.vision.width);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

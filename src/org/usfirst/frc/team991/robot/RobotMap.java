@@ -18,7 +18,7 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	public static int frontleftMotor = 0;
-	public static int backleftMotor = 4;
+	public static int backleftMotor = 2;
 	public static int frontrightMotor = 5;
 	public static int backrightMotor = 7;
 	public static int climber = 6;

@@ -4,10 +4,10 @@ import org.usfirst.frc.team991.robot.commands.FlipForward;
 import org.usfirst.frc.team991.robot.commands.GearControl;
 import org.usfirst.frc.team991.robot.commands.ShootGear;
 import org.usfirst.frc.team991.robot.commands.SignalControl;
+import org.usfirst.frc.team991.robot.commands.SwitchCamera;
+import org.usfirst.frc.team991.robot.commands.SwitchCamera.Cameras;
 import org.usfirst.frc.team991.robot.commands.Turn360;
-import org.usfirst.frc.team991.robot.commands.auto.AlignToGear;
-import org.usfirst.frc.team991.robot.commands.auto.Turn;
-import org.usfirst.frc.team991.robot.commands.auto.TurnToAngle;
+import org.usfirst.frc.team991.robot.commands.TurnAutoTele;
 import org.usfirst.frc.team991.robot.subsystems.Pneumatics.GearSetting;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -35,12 +35,11 @@ public class OI {
 
 	public OI() {
 
-		button_a.whenPressed(new FlipForward());
+		button_a.whenPressed(new SwitchCamera(Cameras.CAMERA1));
+		button_b.whileActive(new SwitchCamera(Cameras.CAMERA2));
+		button_x.whileHeld(new TurnAutoTele());
 		button_rb.whenPressed(new ShootGear());
 		button_lb.whenPressed(new Turn360());
-		
-		button_b.whileActive(new SignalControl());
-		button_x.whenPressed(new TurnToAngle());
 		
 		
 	}

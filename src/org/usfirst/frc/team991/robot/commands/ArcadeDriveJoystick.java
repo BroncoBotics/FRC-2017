@@ -26,22 +26,17 @@ public class ArcadeDriveJoystick extends Command {
 	}
 
 	protected void execute() {
-		Robot.drivetrain.arcadeDriveTrigger(Robot.oi.getPrimaryJoystick().getRawAxis(2), Robot.oi.getPrimaryJoystick().getRawAxis(3), Robot.oi.getPrimaryJoystick().getRawAxis(4));
-		Robot.climber.setClimber(Robot.oi.getSecondaryJoystick().getRawAxis(3), Robot.oi.getSecondaryJoystick().getRawAxis(2));
-		turner_power = 0;
-		if (Robot.oi.getSecondaryJoystick().getRawButton(5)) {
-			turner_power = -1;
-		} else if (Robot.oi.getSecondaryJoystick().getRawButton(6)) {
-			turner_power = 1;
-		} else {
-			turner_power = 0;
-		}
-		Robot.drivetrain.setTurner(turner_power);
-		SmartDashboard.putNumber("Left Encoder", Robot.drivetrain.getLeftPosition());
-		SmartDashboard.putNumber("Right Encoder", Robot.drivetrain.getRightPosition());
-		SmartDashboard.putNumber("Gryo Angle", Robot.drivetrain.getGyroAngle());
-		
-		SmartDashboard.putNumber("Distance", Robot.drivetrain.getUltraDistance());
+		Robot.drivetrain.arcadeDriveTrigger(Robot.oi.getPrimaryJoystick().getRawAxis(2), Robot.oi.getPrimaryJoystick().getRawAxis(3), Robot.oi.getPrimaryJoystick().getRawAxis(4), false);
+//		Robot.climber.setClimber(Robot.oi.getSecondaryJoystick().getRawAxis(3), Robot.oi.getSecondaryJoystick().getRawAxis(2));
+//		turner_power = 0;
+//		if (Robot.oi.getSecondaryJoystick().getRawButton(5)) {
+//			turner_power = -1;
+//		} else if (Robot.oi.getSecondaryJoystick().getRawButton(6)) {
+//			turner_power = 1;
+//		} else {
+//			turner_power = 0;
+//		}
+//		Robot.drivetrain.setTurner(turner_power);
 	}
 
 	protected boolean isFinished() {

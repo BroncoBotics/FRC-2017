@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -85,13 +86,6 @@ public class Drivetrain extends Subsystem {
 	public void lightOff() {
 		light.set(Relay.Value.kOff);
 	}
-	
-	protected double returnPIDInput() {
-        // Return your input value for the PID loop
-        // e.g. a sensor, like a potentiometer:
-        // yourPot.getAverageVoltage() / kYourMaxVoltage;
-        return Robot.vision.adjustedCenter();
-    }
 
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
@@ -148,22 +142,33 @@ public class Drivetrain extends Subsystem {
 			flipped = true;
 		}
 	}
-
+	
+	double quikfix = -.15;
 	//Sets arcade drive
-	public void arcadeDriveTrigger(double right_trigger, double left_trigger, double x) {
+	public void arcadeDriveTrigger(double right_trigger, double left_trigger, double x, boolean noScale) {
 
 		front_right_motor.changeControlMode(TalonControlMode.PercentVbus);
 		front_left_motor.changeControlMode(TalonControlMode.PercentVbus);
 		if (x <= .1 && x >= -.1) {
 			x = 0;
 		}
-		if (flipped) {
-			drive.arcadeDrive(-(right_trigger - left_trigger), -.4 * x, false);
+		if (noScale) {
+			if (flipped) {
+				drive.arcadeDrive(-(right_trigger - left_trigger), -x, false);
+			} else {
+				drive.arcadeDrive(right_trigger - left_trigger, -x, false);
+			}
 		} else {
-			drive.arcadeDrive(right_trigger - left_trigger, -.4 * x, false);
+			if (flipped) {
+				drive.arcadeDrive(-(right_trigger - left_trigger), -.4 * x, false);
+			} else {
+				drive.arcadeDrive(right_trigger - left_trigger, -.4 * x, false);
+			}
 		}
-		
-		
+		SmartDashboard.putNumber("FR", front_right_motor.getOutputCurrent());
+		SmartDashboard.putNumber("FL", front_left_motor.getOutputCurrent());
+		SmartDashboard.putNumber("BR", back_right_motor.getOutputCurrent());
+		SmartDashboard.putNumber("BL", back_left_motor.getOutputCurrent());
 	}
 	
 	public void arcadeDrive(double y, double x) {
